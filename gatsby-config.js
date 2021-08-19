@@ -1,9 +1,13 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-    siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    title: `Improv Playlist Manager`,
+    description: `Kick off your next, great improv show!`,
+    author: `@mwinser`,
+    siteUrl: `http://mwinser.com`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -16,6 +20,13 @@ module.exports = {
       },
     },
     `gatsby-transformer-sharp`,
+    {
+      resolve: `gatsby-source-google-spreadsheets`,
+      options: {
+        spreadsheetId: process.env.SPREADSHEET_ID,
+        apiKey: process.env.GOOGLE_API_KEY,
+      },
+    },
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,

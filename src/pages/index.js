@@ -1,24 +1,27 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const IndexPage = () => (
+const IndexPage = ({data}) => (
   <Layout>
     <Seo title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
+    <h1>Improv Games List</h1>
+    {data.allGoogleSheet.nodes[0].Main.map(node=>
+      (<div key={node.id} className="card">
+        <h2>{node.name}</h2>
+        <p><strong>Categories:</strong> {node.category}</p>
+        <p><strong>Players:</strong> {node.players}</p>
+        <p><strong>Description:</strong> {node.description}</p>
+        <p><strong>How to play:</strong> {node.howToPlay}</p>
+        <p><strong>Notes:</strong> {node.notes}</p>
+      </div>)
+    ) 
+    }
+    
+    
     <p>
       <Link to="/page-2/">Go to page 2</Link> <br />
       <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
@@ -27,3 +30,22 @@ const IndexPage = () => (
 )
 
 export default IndexPage
+
+
+export const query = graphql`
+query AllGames{
+  allGoogleSheet {
+    nodes {
+      Main {
+        id
+        name
+        howToPlay
+        description
+        category
+        notes
+        players
+      }
+    }
+  }
+}
+`

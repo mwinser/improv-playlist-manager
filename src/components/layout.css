@@ -4,13 +4,14 @@ html {
   font: 112.5%/1.45em georgia, serif, sans-serif;
   box-sizing: border-box;
   overflow-y: scroll;
+  background-color:hsla(0, 0%, 0%, 0.08);
 }
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: hsla(0, 0%, 0%, 0.8);
-  font-family: georgia, serif;
+  font-family: 'Lucida Sans', Arial, sans-serif;
   font-weight: normal;
   word-wrap: break-word;
   font-kerning: normal;
@@ -590,6 +591,15 @@ pre tt:before,
 pre tt:after {
   content: "";
 }
+.card {
+  border: 2px solid black;
+  border-radius: 1rem;
+  margin: 2rem 0;
+  padding: 2rem;
+  background-color: white;
+}
+
+
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;
