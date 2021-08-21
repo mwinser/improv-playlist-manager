@@ -7,13 +7,31 @@ import Seo from "../components/seo"
 
 function IndexPage({data}){ 
   const [filter, setFilter] = useState()
+  
+  function ToggleFilter(category) {
+    if (filter && filter.includes(category)){
+      setFilter(prevFilter=>{
+        if (prevFilter.length>=2) {
+          return prevFilter.filter(item=>item !== category)
+        } else {
+          return null
+        }
+        
+      })
+    } else if (filter) {
+      setFilter(prevFilter=>[...prevFilter,category])
+    } else {
+      setFilter([category])
+    }
+  }
+  
   return(
   <Layout>
     <Seo title="Home" />
     <h1>Improv Games List</h1>
     {filter
       ? <>
-          <p>Filtered by: {filter}</p>
+          <p>Filtered by: {JSON.stringify(filter)}</p>
           <button onClick={()=>setFilter()}>Clear Filter</button>
         </>
       : null
@@ -22,7 +40,14 @@ function IndexPage({data}){
       .allGoogleSheet
       .nodes[0]
       .Main
-      .filter(node=>filter ? node.category.includes(filter) : true)
+      .filter(node=> {
+        if (filter) {
+          let allTags = node.category.split(",")
+          return allTags.filter(item=>filter.includes(item.trim())).length === filter.length
+        }
+        return true
+
+      })
       .map(node=>
       (<div key={node.id} className="card">
         <h2>{node.name}</h2>
@@ -30,7 +55,7 @@ function IndexPage({data}){
         <p>
           <strong>Categories: </strong> 
           {node.category.split(",").map(item=>
-              <button onClick={()=>setFilter(item.trim())}>
+              <button onClick={()=>ToggleFilter(item.trim())}>
                 {item.trim()}
               </button>
 
@@ -50,7 +75,7 @@ function IndexPage({data}){
         : null
         }
         {node.seeAlso 
-        ? <p><strong>See also:</strong> {node.seeAlso}</p>
+        ? <p><strong>See also:</strong> {node.seeAlso} </p>
         : null
         }
       </div>)
