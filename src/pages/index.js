@@ -1,14 +1,17 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useState } from "react"
-
+import { Link } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import { Context } from "../context"
+import { useContext } from "react"
 
 function IndexPage({data}){ 
   const [filter, setFilter] = useState()
-  const [playlist, setPlaylist] = useState([])
-  
+  const {playlist, toggleGameInPlaylist} = useContext(Context)
+
+
   function ToggleFilter(category) {
     if (filter && filter.includes(category)){
       setFilter(prevFilter=>{
@@ -26,19 +29,16 @@ function IndexPage({data}){
     }
   }
 
-  function toggleGameInPlaylist(game) {
-    if (playlist.includes(game)){
-      setPlaylist(prevState=>prevState.filter(item => item !== game))
-    } else {
-      setPlaylist(prevState=>[...prevState, game])
-    }
-  }
+
   
   return(
   <Layout>
     <Seo title="Home" />
     <div className="games-list">
       <h1>Improv Games List</h1>
+      <Link to="/playlist" state={{playlist}}>
+        <p>Nav to Playlist Editor</p>
+      </Link>
       {filter
         ? <>
             <p>Filtered by: {JSON.stringify(filter)}</p>
@@ -71,7 +71,7 @@ function IndexPage({data}){
           <p>
             <strong>Categories: </strong> 
             {node.category.split(",").map(item=>
-                <button onClick={()=>ToggleFilter(item.trim())}>
+                <button key={item + " button"} onClick={()=>ToggleFilter(item.trim())}>
                   {item.trim()}
                 </button>
 
@@ -113,6 +113,7 @@ function IndexPage({data}){
 }
 
 export default IndexPage
+
 
 
 export const query = graphql`

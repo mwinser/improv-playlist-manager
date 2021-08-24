@@ -610,6 +610,18 @@ pre tt:after {
   align-items: center;
   justify-content: space-between;
 }
+.buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem;
+}
+
 
 
 @media only screen and (max-width: 480px) {
