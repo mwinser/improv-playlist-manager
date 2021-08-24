@@ -7,6 +7,7 @@ import Seo from "../components/seo"
 
 function IndexPage({data}){ 
   const [filter, setFilter] = useState()
+  const [playlist, setPlaylist] = useState([])
   
   function ToggleFilter(category) {
     if (filter && filter.includes(category)){
@@ -24,63 +25,89 @@ function IndexPage({data}){
       setFilter([category])
     }
   }
+
+  function toggleGameInPlaylist(game) {
+    if (playlist.includes(game)){
+      setPlaylist(prevState=>prevState.filter(item => item !== game))
+    } else {
+      setPlaylist(prevState=>[...prevState, game])
+    }
+  }
   
   return(
   <Layout>
     <Seo title="Home" />
-    <h1>Improv Games List</h1>
-    {filter
-      ? <>
-          <p>Filtered by: {JSON.stringify(filter)}</p>
-          <button onClick={()=>setFilter()}>Clear Filter</button>
-        </>
-      : null
-    }
-    {data
-      .allGoogleSheet
-      .nodes[0]
-      .Main
-      .filter(node=> {
-        if (filter) {
-          let allTags = node.category.split(",")
-          return allTags.filter(item=>filter.includes(item.trim())).length === filter.length
-        }
-        return true
-
-      })
-      .map(node=>
-      (<div key={node.id} className="card">
-        <h2>{node.name}</h2>
-        
-        <p>
-          <strong>Categories: </strong> 
-          {node.category.split(",").map(item=>
-              <button onClick={()=>ToggleFilter(item.trim())}>
-                {item.trim()}
-              </button>
-
-            )
+    <div className="games-list">
+      <h1>Improv Games List</h1>
+      {filter
+        ? <>
+            <p>Filtered by: {JSON.stringify(filter)}</p>
+            <button onClick={()=>setFilter()}>Clear Filter</button>
+          </>
+        : null
+      }
+      {data
+        .allGoogleSheet
+        .nodes[0]
+        .Main
+        .filter(node=> { //filter by category
+          if (filter) {
+            let allTags = node.category.split(",")
+            return allTags.filter(item=>filter.includes(item.trim())).length === filter.length
           }
-        </p>
-        <p><strong>Players:</strong> {node.players}</p>
-        <p><strong>Description:</strong> {node.description}</p>
-        <p><strong>How to play:</strong> {node.howToPlay}</p>
-        {node.example
-        ? <blockquote>{node.example}</blockquote>
-        : null
-        }
-        
-        {node.notes 
-        ? <p><strong>Notes:</strong> {node.notes}</p>
-        : null
-        }
-        {node.seeAlso 
-        ? <p><strong>See also:</strong> {node.seeAlso} </p>
-        : null
-        }
-      </div>)
-    ) 
-    }
+          return true
+
+        })
+        .map(node=>  //list all data as cards
+        (<div key={node.id} className="card">
+          <div className="card-header">
+            <h2>{node.name}</h2>
+            <button onClick={()=>toggleGameInPlaylist(node.name)}>
+              {playlist.includes(node.name) ? `Remove from ` : `Add to `} Playlist
+            </button>
+          </div>
+          
+          
+          <p>
+            <strong>Categories: </strong> 
+            {node.category.split(",").map(item=>
+                <button onClick={()=>ToggleFilter(item.trim())}>
+                  {item.trim()}
+                </button>
+
+              )
+            }
+          </p>
+          <p><strong>Players:</strong> {node.players}</p>
+          <p><strong>Description:</strong> {node.description}</p>
+          <p><strong>How to play:</strong> {node.howToPlay}</p>
+          {node.example
+          ? <blockquote>{node.example}</blockquote>
+          : null
+          }
+          
+          {node.notes 
+          ? <p><strong>Notes:</strong> {node.notes}</p>
+          : null
+          }
+          {node.seeAlso 
+          ? <p><strong>See also:</strong> {node.seeAlso} </p>
+          : null
+          }
+        </div>)
+      ) 
+      }
+    </div>
+    <div className="playlist">
+      <ul>
+        {playlist.map(item=>
+        <li>
+          {item}
+        </li>)}
+      </ul>
+      
+    </div>
+    
   </Layout>
 )
 }
