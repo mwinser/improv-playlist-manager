@@ -40,7 +40,7 @@ function IndexPage({data}){
         <Link to="/playlist" state={{playlist}}>
           <button>Go to Playlist Editor</button>
         </Link>
-        <p>Games Selected: {playlist.length}</p>
+        <p>Games Selected: {playlist && playlist.length}</p>
       </div>
       
       {filter
@@ -67,7 +67,7 @@ function IndexPage({data}){
           <div className="flex-row">
             <h2>{node.name}</h2>
             <button onClick={()=>toggleGameInPlaylist(node.name)}>
-              {playlist.includes(node.name) ? `Remove from ` : `Add to `} Playlist
+              {playlist && playlist.includes(node.name) ? `Remove from ` : `Add to `} Playlist
             </button>
           </div>
           
@@ -105,12 +105,12 @@ function IndexPage({data}){
     <div className="playlist">
       <h3>Game List</h3>
       <ul>
-        {playlist.map(item=>
+        {playlist && playlist.map(item=>
         <li>
           {item}
         </li>)}
       </ul>
-      {playlist.length<1 ? <p>None Selected</p> : null}
+      {playlist && playlist.length<1 ? <p>None Selected</p> : null}
     </div>
     
   </Layout>
