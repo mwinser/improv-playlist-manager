@@ -38,7 +38,7 @@ export default function PlaylistPage(props) {
                 </div>
                 
 
-                {playlist.map((item, index)=> {
+                {playlist && playlist.map((item, index)=> {
                     return(
                         <div key={item+"_"+index} className="card-small">
                             <div className="flex-row">
