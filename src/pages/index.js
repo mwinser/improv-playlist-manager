@@ -36,9 +36,13 @@ function IndexPage({data}){
     <Seo title="Home" />
     <div className="games-list">
       <h1>Improv Games List</h1>
-      <Link to="/playlist" state={{playlist}}>
-        <p>Nav to Playlist Editor</p>
-      </Link>
+      <div className="flex-row">
+        <Link to="/playlist" state={{playlist}}>
+          <button>Go to Playlist Editor</button>
+        </Link>
+        <p>Games Selected: {playlist.length}</p>
+      </div>
+      
       {filter
         ? <>
             <p>Filtered by: {JSON.stringify(filter)}</p>
@@ -60,7 +64,7 @@ function IndexPage({data}){
         })
         .map(node=>  //list all data as cards
         (<div key={node.id} className="card">
-          <div className="card-header">
+          <div className="flex-row">
             <h2>{node.name}</h2>
             <button onClick={()=>toggleGameInPlaylist(node.name)}>
               {playlist.includes(node.name) ? `Remove from ` : `Add to `} Playlist
@@ -99,13 +103,14 @@ function IndexPage({data}){
       }
     </div>
     <div className="playlist">
+      <h3>Game List</h3>
       <ul>
         {playlist.map(item=>
         <li>
           {item}
         </li>)}
       </ul>
-      
+      {playlist.length<1 ? <p>None Selected</p> : null}
     </div>
     
   </Layout>

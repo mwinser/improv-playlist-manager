@@ -5,6 +5,7 @@ import { useContext } from "react"
 import { Context } from "../context"
 import { useState } from "react"
 import { useReactToPrint } from "react-to-print"
+import Layout from "../components/layout"
 
 
 
@@ -24,18 +25,23 @@ export default function PlaylistPage(props) {
     })
     
     return (
-        <>
-            <h2>Playlist Manager Page</h2>
-            <Link to="/" state={{playlist}}>
-                <p>Back to Index</p>
-            </Link>
-
-            <div ref={componentRef}>
+        <Layout>
+            <div classname="playlist-container">
+                <h2>Playlist Manager Page</h2>
+                <div className="flex-row">
+                    <Link to="/" state={{playlist}}>
+                        <button>Back to Index</button>
+                    </Link>
+                    <button onClick={handlePrint}>
+                        Print Playlist
+                    </button>
+                </div>
                 
+
                 {playlist.map((item, index)=> {
                     return(
-                        <div key={item+"_"+index} className="card">
-                            <div className="card-header">
+                        <div key={item+"_"+index} className="card-small">
+                            <div className="flex-row">
                                 <h3>{item}</h3>
                                 <div className="buttons-container">
                                     {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
@@ -50,11 +56,15 @@ export default function PlaylistPage(props) {
                     
                 })
                 }
-            <button onClick={handlePrint}>
-                Print Playlist
-            </button>
+
+                <div className="printable-playlist-container">
+                    <div className="printable-playlist" ref={componentRef}>
+                        <p>
+                            {playlist.map(item=><>{item}<br/></>)}
+                        </p>
+                    </div>
+                </div>
             </div>
-            
-        </>
+        </Layout>
     )
 }
