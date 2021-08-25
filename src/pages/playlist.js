@@ -60,7 +60,7 @@ export default function PlaylistPage(props) {
                 <div className="printable-playlist-container">
                     <div className="printable-playlist" ref={componentRef}>
                         <p>
-                            {playlist.map(item=><>{item}<br/></>)}
+                            {playlist && playlist.map(item=><>{item}<br/></>)}
                         </p>
                     </div>
                 </div>
