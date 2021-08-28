@@ -601,8 +601,34 @@ pre tt:after {
 }
 
 
+
+.games-list {
+  width: calc(70vw - 2rem)
+}
+.right-panel {
+  position: relative;
+  min-width: 30vw;
+  height: 100vh;
+}
 .playlist-container {
-  width: 100%;
+  position: fixed;
+  top: 5.5rem;
+  right: 30vw;
+  transform: translateX(100%);
+  padding: 1rem;
+  width: 30vw;
+  height: 100vh;
+  border-left: 2px solid black;
+  border-bottom: 2px solid black;
+  border-top: 2px solid black;
+  border-top-left-radius: 1rem;
+}
+.playlist-container h3 {
+  margin-bottom: 0;
+  font-size: 1rem;
+}
+.playlist-container button {
+  font-size: .8rem;
 }
 .playlist {
   padding-left: 2em;
@@ -615,16 +641,23 @@ pre tt:after {
   padding: 2rem;
   background-color: white;
 }
+
+.card p {
+  font-size: .9rem;
+}
 .card-small {
   border: 2px solid black;
-  border-radius: 1rem;
-  margin: 1rem 0;
-  padding: 1rem;
+  margin: .25rem 0;
+  padding: .3rem;
   background-color: white;
-  min-width: 80vw;
 }
-.card-small h3 {
+.card-small p {
   margin-bottom: 0;
+  font-size: .9em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
 }
 .flex-row {
   display: flex;
@@ -650,17 +683,28 @@ button {
   margin: 10vw;
 }
 
+.buttons-container button {
+  padding: 0.25rem;
+  height: 1.25rem;
+  width: 1.25rem;
+}
 
 
-@media only screen and (max-width: 480px) {
+
+@media only screen and (max-width: 575px) {
   html {
     font-size: 100%;
+    overflow-x: hidden;
   }
   .playlist {
     display: none;
   }
+  .right-panel {
+    display: none;
+  }
   .games-list {
     max-width: 90vw;
+    width: unset;
   }
   .card-small {
     min-width: 90vw;

@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { Context } from "../context"
 import { useContext } from "react"
+import Playlist from "../components/playlist"
 
 function IndexPage({data}){ 
   const [filter, setFilter] = useState()
@@ -102,16 +103,10 @@ function IndexPage({data}){
       ) 
       }
     </div>
-    <div className="playlist">
-      <h3>Game List</h3>
-      <ul>
-        {playlist && playlist.map(item=>
-        <li>
-          {item}
-        </li>)}
-      </ul>
-      {playlist && playlist.length<1 ? <p>None Selected</p> : null}
+    <div className="right-panel">
+      <Playlist/>
     </div>
+    
     
   </Layout>
 )
