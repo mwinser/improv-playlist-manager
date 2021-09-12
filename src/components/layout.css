@@ -705,6 +705,7 @@ button {
   .playlist-container {
     right: 94vw;
     width: unset;
+    min-width: 94vw;
   }
   .games-list {
     max-width: 90vw;
@@ -718,6 +719,7 @@ button {
     bottom: 0;
     right: 0;
     margin: 0 0 1rem;
+    display: unset;
   }
 
   .hide-editor {

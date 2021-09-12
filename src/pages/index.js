@@ -8,13 +8,15 @@ import { useContext } from "react"
 import Playlist from "../components/playlist"
 
 function IndexPage({data}){ 
-  const [filter, setFilter] = useState()
+  const [tagFilter, setTagFilter] = useState()
+  const [searchFilter, setSearchFilter] = useState()
+  const [numberPlayersFilter, setNumberPlayersFilter] = useState()
   const {playlist, toggleGameInPlaylist} = useContext(Context)
 
 
-  function ToggleFilter(category) {
-    if (filter && filter.includes(category)){
-      setFilter(prevFilter=>{
+  function ToggleTagFilter(category) {
+    if (tagFilter && tagFilter.includes(category)){
+      setTagFilter(prevFilter=>{
         if (prevFilter.length>=2) {
           return prevFilter.filter(item=>item !== category)
         } else {
@@ -22,11 +24,17 @@ function IndexPage({data}){
         }
         
       })
-    } else if (filter) {
-      setFilter(prevFilter=>[...prevFilter,category])
+    } else if (tagFilter) {
+      setTagFilter(prevFilter=>[...prevFilter,category])
     } else {
-      setFilter([category])
+      setTagFilter([category])
     }
+  }
+
+  function ClearFilters() {
+    setNumberPlayersFilter("")
+    setSearchFilter("")
+    setTagFilter()
   }
 
 
@@ -37,14 +45,28 @@ function IndexPage({data}){
     <div className="games-list">
       <h1>Improv Games List</h1>
       <div className="flex-row">
+      <button onClick={()=>ClearFilters()}>Clear all filters</button>
+        <input
+          min={2}
+          max={6}
+          type="number"
+          placeholder="#Players"
+          value={numberPlayersFilter}
+          onChange={e=>setNumberPlayersFilter(e.target.value)}
+        />
+        <input
+          type="text"
+          size={15}
+          placeholder="Search by Title"
+          value={searchFilter}
+          onChange={e=>setSearchFilter(e.target.value)}
+        />
         <p>Games Selected: {playlist && playlist.length}</p>
       </div>
       
-      {filter
-        ? <>
-            <p>Filtered by: {JSON.stringify(filter)}</p>
-            <button onClick={()=>setFilter()}>Clear Filter</button>
-          </>
+      {tagFilter
+        ?
+          <p>Tags Filtered by: {JSON.stringify(tagFilter)}</p>
         : null
       }
       {data
@@ -52,14 +74,25 @@ function IndexPage({data}){
         .nodes[0]
         .Main
         .filter(node=> { //filter by category
-          if (filter) {
+          if (tagFilter) {
             let allTags = node.category.split(",")
-            return allTags.filter(item=>filter.includes(item.trim())).length === filter.length
+            //return true if all tags of item include tags of filter
+            return allTags.filter(item=>tagFilter.includes(item.trim())).length === tagFilter.length
           }
           return true
-
         })
-        .map(node=>  //list all data as cards
+        //filter by title search
+        .filter(node=> {
+          if (searchFilter)  {
+            var regex = new RegExp(searchFilter, "i")
+            return regex.test(node.name)
+          }
+          return true
+        })
+        //filter by minimum players
+        .filter(node=> numberPlayersFilter ? node.minimumPlayers <= numberPlayersFilter && node.maximumPlayers >= numberPlayersFilter : true)
+        //list all data as cards
+        .map(node=> 
         (<div key={node.id} className="card">
           <div className="flex-row">
             <h2>{node.name}</h2>
@@ -72,7 +105,7 @@ function IndexPage({data}){
           <p>
             <strong>Categories: </strong> 
             {node.category.split(",").map(item=>
-                <button key={item + " button"} onClick={()=>ToggleFilter(item.trim())}>
+                <button key={item + " button"} onClick={()=>ToggleTagFilter(item.trim())}>
                   {item.trim()}
                 </button>
 
@@ -123,6 +156,8 @@ query AllGames{
         category
         notes
         players
+        maximumPlayers
+        minimumPlayers
         example
         seeAlso
       }
