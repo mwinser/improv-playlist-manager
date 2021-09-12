@@ -1,7 +1,6 @@
 import * as React from "react"
 import { graphql } from "gatsby"
 import { useState } from "react"
-import { Link } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { Context } from "../context"
@@ -38,9 +37,6 @@ function IndexPage({data}){
     <div className="games-list">
       <h1>Improv Games List</h1>
       <div className="flex-row">
-        <Link to="/playlist" state={{playlist}}>
-          <button>Go to Playlist Editor</button>
-        </Link>
         <p>Games Selected: {playlist && playlist.length}</p>
       </div>
       

@@ -11,7 +11,9 @@ import { useReactToPrint } from "react-to-print"
 export default function Playlist(props) {
     const {playlist, toggleGameInPlaylist, moveGamePosition} = useContext(Context)
     const [fakeState, setFakeState] = useState(0)
+    const [isEditorOpen, setIsEditorOpen] = useState(false)
     const componentRef = useRef()
+
     function updatePlaylist(){
         //in Gatsby Context passed as props doesn't update on Context change
         setFakeState(prevState=>prevState+1)
@@ -21,44 +23,55 @@ export default function Playlist(props) {
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     })
+
+    function ToggleEditor() {
+        setIsEditorOpen(prevState => !prevState)
+    }
     
     return (
-            <div className="playlist-container">
-                
-                <div className="flex-row">
-                    <h3>Playlist Editor</h3>
-                    <button onClick={handlePrint}>
-                        Print Playlist
-                    </button>
-                </div>
-                
+            <>
+                <div className={isEditorOpen ? "playlist-container" : "playlist-container hide-editor"}>
+                    
+                    <div className="flex-row">
+                        <h3>Playlist Editor</h3>
+                        <button onClick={handlePrint}>
+                            Print Playlist
+                        </button>
+                    </div>
+                    
 
-                {playlist && playlist.map((item, index)=> {
-                    return(
-                        <div key={item+"_"+index} className="card-small">
-                            <div className="flex-row">
-                                <p>{index+1}. {item}</p>
-                                <div className="buttons-container">
-                                    {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
-                                    {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1); updatePlaylist()}}><FaArrowDown/> </button> : null}
-                                    <button onClick={()=>toggleGameInPlaylist(item)}><FaRegTrashAlt/> </button>
+                    {playlist && playlist.map((item, index)=> {
+                        return(
+                            <div key={item+"_"+index} className="card-small">
+                                <div className="flex-row">
+                                    <p>{index+1}. {item}</p>
+                                    <div className="buttons-container">
+                                        {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
+                                        {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1); updatePlaylist()}}><FaArrowDown/> </button> : null}
+                                        <button onClick={()=>toggleGameInPlaylist(item)}><FaRegTrashAlt/> </button>
+                                    </div>
+                                    
                                 </div>
                                 
                             </div>
-                            
-                        </div>
-                    )
-                    
-                })
-                }
+                        )
+                        
+                    })
+                    }
 
-                <div className="printable-playlist-container">
-                    <div className="printable-playlist" ref={componentRef}>
-                        <p>
-                            {playlist && playlist.map(item=><>{item}<br/></>)}
-                        </p>
+                    <div className="printable-playlist-container">
+                        <div className="printable-playlist" ref={componentRef}>
+                            <p>
+                                {playlist && playlist.map(item=><>{item}<br/></>)}
+                            </p>
+                        </div>
                     </div>
+                    
                 </div>
-            </div>
+                <button onClick={ToggleEditor} className="editor-popout-button">
+                    {isEditorOpen ? "Close Editor" : "Open Editor"}
+                </button>
+
+            </>
     )
 }
