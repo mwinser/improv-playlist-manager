@@ -42,7 +42,7 @@ export default function Playlist(props) {
 
                     {playlist && playlist.map((item, index)=> {
                         return(
-                            <div key={item+"_"+index} className="card-small">
+                            <div key={item + "_card"} className="card-small">
                                 <div className="flex-row">
                                     <p>{index+1}. {item}</p>
                                     <div className="buttons-container">
@@ -62,7 +62,7 @@ export default function Playlist(props) {
                     <div className="printable-playlist-container">
                         <div className="printable-playlist" ref={componentRef}>
                             <p>
-                                {playlist && playlist.map(item=><>{item}<br/></>)}
+                                {playlist && playlist.map(item=><span key={item}>{item}<br/></span>)}
                             </p>
                         </div>
                     </div>
