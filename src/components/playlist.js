@@ -24,6 +24,8 @@ export default function Playlist(props) {
         content: () => componentRef.current,
     })
 
+
+
     function ToggleEditor() {
         setIsEditorOpen(prevState => !prevState)
     }

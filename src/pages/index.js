@@ -1,15 +1,29 @@
 import * as React from "react"
 import { graphql } from "gatsby"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Playlist from "../components/playlist"
 import GameCard from "../components/gameCard"
+import { Context } from "../context"
 
 function IndexPage({ data }) {
   const [tagFilter, setTagFilter] = useState()
   const [searchFilter, setSearchFilter] = useState()
   const [numberPlayersFilter, setNumberPlayersFilter] = useState()
+  const { playlist, toggleGameInPlaylist } = useContext(Context)
+
+  const fullGamesList = data.allGoogleSheet.nodes[0].Main
+
+  function RandomPlaylist(number) {
+    var randomList = []
+    while (randomList.length<number) {
+        var gameToAdd = fullGamesList[~~(Math.random()*fullGamesList.length)].name
+        if (!randomList.includes(gameToAdd)) randomList.push(gameToAdd)
+    }
+    randomList.forEach(game=>toggleGameInPlaylist(game))
+  }
+
 
   function ToggleTagFilter(category) {
     if (tagFilter && tagFilter.includes(category)) {
@@ -33,7 +47,7 @@ function IndexPage({ data }) {
     setTagFilter()
   }
 
-  const filteredList = data.allGoogleSheet.nodes[0].Main.filter(node => {
+  const filteredList = fullGamesList.filter(node => {
     //filter by category
     if (tagFilter) {
       let allTags = node.category.split(",")
@@ -68,27 +82,30 @@ function IndexPage({ data }) {
         <h1>Improv Games List</h1>
         <div className="flex-row">
           <button onClick={() => ClearFilters()}>Clear all filters</button>
-          <div className="flex-row">
-            # Players: 
-            <input
-              min={2}
-              max={6}
-              type="number"
-              placeholder="#"
-              value={numberPlayersFilter}
-              onChange={e => setNumberPlayersFilter(e.target.value)}
-            />
+          <div style={{display: "flex", flexDirection: "column"}}>
+            <div className="flex-row">
+              # Players: 
+              <input
+                min={2}
+                max={6}
+                type="number"
+                placeholder="#"
+                value={numberPlayersFilter}
+                onChange={e => setNumberPlayersFilter(e.target.value)}
+              />
+            </div>
+            <div className="flex-row">
+              Search:  
+              <input
+                type="text"
+                size={15}
+                placeholder="Title"
+                value={searchFilter}
+                onChange={e => setSearchFilter(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="flex-row">
-            Search:  
-            <input
-              type="text"
-              size={15}
-              placeholder="Title"
-              value={searchFilter}
-              onChange={e => setSearchFilter(e.target.value)}
-            />
-          </div>
+          <button onClick={()=> RandomPlaylist(1)}> Add Random Game</button>
         </div>
 
         {tagFilter ? (
