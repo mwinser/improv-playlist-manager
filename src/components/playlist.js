@@ -69,7 +69,7 @@ export default function Playlist(props) {
                     
                 </div>
                 <button onClick={ToggleEditor} className="editor-popout-button">
-                    {isEditorOpen ? "Close Editor" : "Open Editor"}
+                    {isEditorOpen ? "Close Editor" : `Open Editor (${playlist ? playlist.length : 0})`}
                 </button>
 
             </>

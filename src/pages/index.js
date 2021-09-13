@@ -3,8 +3,6 @@ import { graphql } from "gatsby"
 import { useState } from "react"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { Context } from "../context"
-import { useContext } from "react"
 import Playlist from "../components/playlist"
 import GameCard from "../components/gameCard"
 
@@ -12,7 +10,6 @@ function IndexPage({ data }) {
   const [tagFilter, setTagFilter] = useState()
   const [searchFilter, setSearchFilter] = useState()
   const [numberPlayersFilter, setNumberPlayersFilter] = useState()
-  const { playlist } = useContext(Context)
 
   function ToggleTagFilter(category) {
     if (tagFilter && tagFilter.includes(category)) {
@@ -92,7 +89,6 @@ function IndexPage({ data }) {
               onChange={e => setSearchFilter(e.target.value)}
             />
           </div>
-          <p>Games Selected: {playlist ? playlist.length : 0}</p>
         </div>
 
         {tagFilter ? (
