@@ -98,7 +98,7 @@ function IndexPage({ data }) {
               Search:  
               <input
                 type="text"
-                size={15}
+                size={10}
                 placeholder="Title"
                 value={searchFilter}
                 onChange={e => setSearchFilter(e.target.value)}

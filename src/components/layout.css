@@ -703,14 +703,14 @@ button {
 
 
 
-@media only screen and (max-width: 575px) {
+@media only screen and (max-width: 1000px) {
   html {
     font-size: 100%;
     overflow-x: hidden;
   }
 
   .playlist-container {
-    right: 94vw;
+    right: 60vw;
     width: unset;
     min-width: 94vw;
   }
@@ -732,4 +732,20 @@ button {
   .hide-editor {
     right: 1vw;
   }
+  button {
+    padding: .25rem;
+  }
 }
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 90%;
+  }
+  .playlist-container {
+    right: 94vw;
+  }
+  
+  .hide-editor {
+    right: 1vw;
+  }
+}
+
