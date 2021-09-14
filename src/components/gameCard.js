@@ -20,7 +20,7 @@ export default function GameCard(props) {
           </button>
         </div>
 
-        <p>
+        <div className="cat-row">
           <strong>Categories: </strong>
           {node.category.split(",").map(item => (
             <button
@@ -30,7 +30,7 @@ export default function GameCard(props) {
               {item.trim()}
             </button>
           ))}
-        </p>
+        </div>
         <p>
           <strong>Players:</strong> {node.players}
         </p>

@@ -11,7 +11,7 @@ function IndexPage({ data }) {
   const [tagFilter, setTagFilter] = useState()
   const [searchFilter, setSearchFilter] = useState()
   const [numberPlayersFilter, setNumberPlayersFilter] = useState()
-  const { playlist, toggleGameInPlaylist } = useContext(Context)
+  const { toggleGameInPlaylist } = useContext(Context)
 
   const fullGamesList = data.allGoogleSheet.nodes[0].Main
 

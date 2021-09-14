@@ -647,6 +647,13 @@ pre tt:after {
 .card p {
   font-size: .9rem;
 }
+
+.cat-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
 .card-small {
   border: 2px solid black;
   margin: .25rem 0;
