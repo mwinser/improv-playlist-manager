@@ -11,7 +11,7 @@ function IndexPage({ data }) {
   const [tagFilter, setTagFilter] = useState()
   const [searchFilter, setSearchFilter] = useState()
   const [numberPlayersFilter, setNumberPlayersFilter] = useState()
-  const { toggleGameInPlaylist } = useContext(Context)
+  const { playlist, toggleGameInPlaylist } = useContext(Context)
 
   const fullGamesList = data.allGoogleSheet.nodes[0].Main
 
@@ -19,7 +19,7 @@ function IndexPage({ data }) {
     var randomList = []
     while (randomList.length<number) {
         var gameToAdd = fullGamesList[~~(Math.random()*fullGamesList.length)].name
-        if (!randomList.includes(gameToAdd)) randomList.push(gameToAdd)
+        if (!playlist.includes(gameToAdd)) randomList.push(gameToAdd)
     }
     randomList.forEach(game=>toggleGameInPlaylist(game))
   }
