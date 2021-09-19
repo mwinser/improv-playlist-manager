@@ -4,7 +4,6 @@ import { useContext } from "react"
 import { Context } from "../context"
 import { useState } from "react"
 import { useReactToPrint } from "react-to-print"
-import { Link } from "gatsby"
 
 
 
