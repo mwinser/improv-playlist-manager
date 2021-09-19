@@ -4,6 +4,7 @@ import { useContext } from "react"
 import { Context } from "../context"
 import { useState } from "react"
 import { useReactToPrint } from "react-to-print"
+import { Link } from "gatsby"
 
 
 
@@ -46,7 +47,14 @@ export default function Playlist(props) {
                         return(
                             <div key={item + "_card"} className="card-small">
                                 <div className="flex-row">
-                                    <p>{index+1}. {item}</p>
+                                    <p>{index+1}. 
+                                        <a 
+                                        href={`#${item}`}
+                                        style={{textDecoration: "none", color: "unset"}}
+                                        >
+                                            {item}
+                                        </a>
+                                    </p>
                                     <div className="buttons-container">
                                         {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
                                         {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1); updatePlaylist()}}><FaArrowDown/> </button> : null}

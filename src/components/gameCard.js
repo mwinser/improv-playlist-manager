@@ -9,7 +9,7 @@ export default function GameCard(props) {
     const { playlist, toggleGameInPlaylist } = useContext(Context)
     const {node, ToggleTagFilter} = props
     return (
-      <div className="card">
+      <div className="card" id={node.name}>
         <div className="flex-row">
           <h2>{node.name}</h2>
           <button onClick={() => toggleGameInPlaylist(node.name)}>
