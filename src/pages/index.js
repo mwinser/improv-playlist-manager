@@ -42,7 +42,6 @@ function IndexPage({ data }) {
   }
 
   function ClearFilters() {
-    console.log("clear filters triggered")
     setNumberPlayersFilter("")
     setSearchFilter("")
     setTagFilter()

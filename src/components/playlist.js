@@ -1,4 +1,4 @@
-import { FaRegTrashAlt, FaArrowUp, FaArrowDown } from "react-icons/fa"
+import { FaRegTrashAlt, FaArrowUp, FaArrowDown, FaStepForward} from "react-icons/fa"
 import React, { useRef } from "react"
 import { useContext } from "react"
 import { Context } from "../context"
@@ -42,32 +42,36 @@ export default function Playlist(props) {
                     </div>
                     
 
-                    {playlist && playlist.map((item, index)=> {
-                        return(
-                            <div key={item + "_card"} className="card-small">
-                                <div className="flex-row">
-                                    <p>{index+1}. 
-                                        <a 
-                                        onClick={()=>props.clearFilters()}
-                                        href={`#${item}`}
-                                        style={{textDecoration: "none", color: "unset"}}
-                                        >
-                                            {item}
-                                        </a>
-                                    </p>
-                                    <div className="buttons-container">
-                                        {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
-                                        {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1); updatePlaylist()}}><FaArrowDown/> </button> : null}
-                                        <button onClick={()=>toggleGameInPlaylist(item)}><FaRegTrashAlt/> </button>
+                    {playlist.length===0 
+                        ? <p>No Games Selected</p> 
+                        : playlist.map((item, index)=> {
+                            return(
+                                <div key={item + "_card"} className="card-small">
+                                    <div className="flex-row">
+                                        <p>{index+1}. 
+                                            <a 
+                                            onClick={()=>props.clearFilters()}
+                                            href={`#${item}`}
+                                            style={{textDecoration: "none", color: "unset"}}
+                                            >
+                                                {item}
+                                            </a>
+                                        </p>
+                                        <div className="buttons-container">
+                                            {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1, true); updatePlaylist()}} className="rotate-left"><FaStepForward/> </button> : null}
+                                            {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
+                                            {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1); updatePlaylist()}}><FaArrowDown/> </button> : null}
+                                            {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1, true); updatePlaylist()}} className="rotate-right"><FaStepForward/> </button> : null}
+                                            <button onClick={()=>toggleGameInPlaylist(item)}><FaRegTrashAlt/> </button>
+                                        </div>
+                                        
                                     </div>
                                     
                                 </div>
-                                
-                            </div>
-                        )
-                        
-                    })
+                            )
+                        })
                     }
+                    
 
                     <div className="printable-playlist-container">
                         <div className="printable-playlist" ref={componentRef}>

@@ -700,6 +700,12 @@ button {
 .editor-popout-button {
   display: none;
 }
+.rotate-right {
+  transform: rotate(90deg)
+}
+.rotate-left {
+  transform: rotate(-90deg)
+}
 
 
 

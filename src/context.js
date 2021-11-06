@@ -16,16 +16,31 @@ function ContextProvider ({children}) {
         }
       }
 
-    function moveGamePosition(game, index, change) {
-      setPlaylist(
-        prevState=> {
-          const temp = prevState
-          temp[index] = temp[index+change]
-          temp[index+change] = game
-          return temp
-          
+    function moveGamePosition(game, index, change, end=false) {
+      
+      if(end){ 
+        if (change<=0) {setPlaylist(prevState=> {
+          prevState.splice(index, 1)
+          prevState.unshift(game)
+          return prevState
+          })}
+        else {setPlaylist(prevState=> {
+          prevState.splice(index, 1)
+          prevState.push(game)
+          return prevState
+        })
         }
-      )
+      }
+      else {
+        setPlaylist(
+          prevState=> {
+            const temp = prevState
+            temp[index] = temp[index+change]
+            temp[index+change] = game
+            return temp
+          }
+        )
+      }
     }
 
     return (
