@@ -13,11 +13,11 @@ export default function Playlist(props) {
     const [fakeState, setFakeState] = useState(0)
     const [isEditorOpen, setIsEditorOpen] = useState(false)
     const componentRef = useRef()
+    
 
     function updatePlaylist(){
-        //in Gatsby Context passed as props doesn't update on Context change
+        //in Gatsby, Context passed as props doesn't update on Context change, use fake state to force update
         setFakeState(prevState=>prevState+1)
-        console.log(fakeState + " forced update due to context change")
     }
 
     const handlePrint = useReactToPrint({
@@ -48,6 +48,7 @@ export default function Playlist(props) {
                                 <div className="flex-row">
                                     <p>{index+1}. 
                                         <a 
+                                        onClick={()=>props.clearFilters()}
                                         href={`#${item}`}
                                         style={{textDecoration: "none", color: "unset"}}
                                         >

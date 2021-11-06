@@ -42,6 +42,7 @@ function IndexPage({ data }) {
   }
 
   function ClearFilters() {
+    console.log("clear filters triggered")
     setNumberPlayersFilter("")
     setSearchFilter("")
     setTagFilter()
@@ -118,7 +119,7 @@ function IndexPage({ data }) {
         }
       </div>
       <div className="right-panel">
-        <Playlist />
+        <Playlist clearFilters={()=>ClearFilters()}/>
       </div>
     </Layout>
   )
