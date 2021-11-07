@@ -57,7 +57,7 @@ export default function Playlist(props) {
 
                     {playlist?.length===0 
                         ? <p>No Games Selected</p> 
-                        : playlist.map((item, index)=> {
+                        : playlist?.map((item, index)=> {
                             return(
                                 <div 
                                     key={item + "_card"} 
