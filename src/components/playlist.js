@@ -8,6 +8,7 @@ import { useReactToPrint } from "react-to-print"
 
 
 
+
 export default function Playlist(props) {
     const {playlist, toggleGameInPlaylist, moveGamePosition} = useContext(Context)
     const [fakeState, setFakeState] = useState(0)
@@ -28,19 +29,8 @@ export default function Playlist(props) {
         setIsEditorOpen(prevState => !prevState)
     }
     
-    // function HandleDragStart(e) {
-    //     console.log("drag started with ", e.target)
-    // }
-    // function HandleDragEnter(e) {
-    //     console.log("over target ", e.target)
 
-    // }
-    // function HandleDragLeave(e) {
-    //     console.log("left target ", e.target)
-    // }
-    // function HandleDragDrop(e) {
-    //     console.log("drag ended with ", e.target)
-    // }
+
 
 
     return (
@@ -59,40 +49,37 @@ export default function Playlist(props) {
                         ? <p>No Games Selected</p> 
                         : playlist?.map((item, index)=> {
                             return(
-                                <div 
-                                    key={item + "_card"} 
-                                    className="card-small" 
-                                    // draggable={true}
-                                    // onDragStart={(e)=>HandleDragStart(e)}
-                                    // onDragEnter={(e)=>HandleDragEnter(e)}
-                                    // onDragLeave={(e)=>HandleDragLeave(e)}
-                                    // onDrop={(e)=>HandleDragDrop(e)}
-                                    >
+                                
                                     <div 
-                                        className="flex-row"
-                                        >
-                                        <p>{index+1}. 
-                                            <a 
-                                            onClick={()=>props.clearFilters()}
-                                            href={`#${item}`}
-                                            style={{textDecoration: "none", color: "unset"}}
-                                            >
-                                                {item}
-                                            </a>
-                                        </p>
+                                        key={item + "_card"} 
+                                        className="card-small" >
                                         <div 
-                                            className="buttons-container"
-                                        >
-                                            {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1, true); updatePlaylist()}} className="rotate-left"><FaStepForward/> </button> : null}
-                                            {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
-                                            {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1); updatePlaylist()}}><FaArrowDown/> </button> : null}
-                                            {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1, true); updatePlaylist()}} className="rotate-right"><FaStepForward/> </button> : null}
-                                            <button onClick={()=>toggleGameInPlaylist(item)}><FaRegTrashAlt/> </button>
+                                            className="flex-row"
+                                            >
+                                            <p>{index+1}. 
+                                                <a 
+                                                onClick={()=>props.clearFilters()}
+                                                href={`#${item}`}
+                                                draggable
+                                                style={{textDecoration: "none", color: "unset"}}
+                                                >
+                                                    {item}
+                                                </a>
+                                            </p>
+                                            <div 
+                                                className="buttons-container"
+                                            >
+                                                {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1, true); updatePlaylist()}} className="rotate-left"><FaStepForward/> </button> : null}
+                                                {index>0 ? <button onClick={()=>{moveGamePosition(item, index, -1); updatePlaylist()}}><FaArrowUp/> </button> : null}
+                                                {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1); updatePlaylist()}}><FaArrowDown/> </button> : null}
+                                                {index<playlist.length-1 ? <button onClick={()=>{moveGamePosition(item, index, 1, true); updatePlaylist()}} className="rotate-right"><FaStepForward/> </button> : null}
+                                                <button onClick={()=>toggleGameInPlaylist(item)}><FaRegTrashAlt/> </button>
+                                            </div>
+                                            
                                         </div>
                                         
                                     </div>
-                                    
-                                </div>
+                                
                             )
                         })
                     }

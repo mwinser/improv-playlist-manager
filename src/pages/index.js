@@ -12,7 +12,7 @@ function IndexPage({ data }) {
   const [searchFilter, setSearchFilter] = useState()
   const [numberPlayersFilter, setNumberPlayersFilter] = useState()
   const { playlist, toggleGameInPlaylist } = useContext(Context)
-
+  
   const fullGamesList = data.allGoogleSheet.nodes[0].Main
 
   function RandomPlaylist(number) {
@@ -45,6 +45,10 @@ function IndexPage({ data }) {
     setNumberPlayersFilter("")
     setSearchFilter("")
     setTagFilter()
+  }
+
+  function ScrollToTop() {
+    document.documentElement.scrollTop = 0
   }
 
   const filteredList = fullGamesList.filter(node => {
@@ -118,6 +122,11 @@ function IndexPage({ data }) {
         }
       </div>
       <div className="right-panel">
+        <div className="back-to-top">
+          <button onClick={ScrollToTop}>
+            Back to Top
+          </button>
+        </div>
         <Playlist clearFilters={()=>ClearFilters()}/>
       </div>
     </Layout>

@@ -610,6 +610,18 @@ pre tt:after {
   min-width: 30vw;
   height: 100vh;
 }
+.back-to-top {
+  position: fixed;
+  top: 0;
+  right: 30vw;
+  width: 30vw;
+  transform: translate(100%, 50%);
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+
 .playlist-container {
   position: fixed;
   top: 5.5rem;
@@ -740,6 +752,7 @@ button {
   }
   button {
     padding: .25rem;
+    cursor: pointer;
   }
 }
 @media only screen and (max-width: 600px) {
