@@ -55,7 +55,7 @@ export default function Playlist(props) {
                     </div>
                     
 
-                    {playlist.length===0 
+                    {playlist?.length===0 
                         ? <p>No Games Selected</p> 
                         : playlist.map((item, index)=> {
                             return(
