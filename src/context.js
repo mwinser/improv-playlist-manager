@@ -5,7 +5,9 @@ import { useState } from "react"
 const Context = React.createContext([])
 
 function ContextProvider ({children}) {
-    const [playlist, setPlaylist] = useState([])
+    //defining default state necessary for gatsby build process
+    const defaultPlaylist = []
+    const [playlist, setPlaylist] = useState(defaultPlaylist)
 
 
     function toggleGameInPlaylist(game) {
