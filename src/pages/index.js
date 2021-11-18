@@ -18,7 +18,7 @@ function IndexPage({ data }) {
   function RandomPlaylist(number) {
     var randomList = []
     while (randomList.length<number) {
-        var gameToAdd = fullGamesList[~~(Math.random()*fullGamesList.length)].name
+        var gameToAdd = filteredList[~~(Math.random()*filteredList.length)].name
         if (!playlist.includes(gameToAdd)) randomList.push(gameToAdd)
     }
     randomList.forEach(game=>toggleGameInPlaylist(game))
