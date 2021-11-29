@@ -7,7 +7,7 @@ import { Context } from "../context"
 
 export default function GameCard(props) {
     const { playlist, toggleGameInPlaylist } = useContext(Context)
-    const {node, ToggleTagFilter} = props
+    const {node} = props
     return (
       <div className="card" id={node.name}>
         <div className="flex-row">
@@ -19,27 +19,25 @@ export default function GameCard(props) {
             Playlist
           </button>
         </div>
+        
+        <p>
+          <strong>Categories:</strong> {" " + node.category}
+        </p>
 
-        <div className="cat-row">
-          <strong>Categories: </strong>
-          {node.category.split(",").map(item => (
-            <button
-              key={item + " button"}
-              onClick={() => ToggleTagFilter(item.trim())}
-            >
-              {item.trim()}
-            </button>
-          ))}
-        </div>
         <p>
           <strong>Players:</strong> {node.players}
         </p>
+
         <p>
           <strong>Description:</strong> {node.description}
         </p>
-        <p>
-          <strong>How to play:</strong> {node.howToPlay}
-        </p>
+
+        {node.howToPlay ? (
+          <p>
+            <strong>How to play:</strong> {node.howToPlay}
+          </p>
+        ) : null}
+        
         {node.example ? <blockquote>{node.example}</blockquote> : null}
 
         {node.notes ? (
@@ -47,9 +45,17 @@ export default function GameCard(props) {
             <strong>Notes:</strong> {node.notes}
           </p>
         ) : null}
+
         {node.seeAlso ? (
           <p>
-            <strong>See also:</strong> {node.seeAlso}{" "}
+            <strong>See also:</strong> 
+            <a 
+            onClick={()=>props.clearFilters()}
+            href={`#${node.seeAlso}`}
+            style={{color: "unset"}}
+            >
+              {node.seeAlso}
+            </a>
           </p>
         ) : null}
       </div>

@@ -8,12 +8,19 @@ import GameCard from "../components/gameCard"
 import { Context } from "../context"
 
 function IndexPage({ data }) {
-  const [tagFilter, setTagFilter] = useState()
+  const [catFilter, setCatFilter] = useState()
   const [searchFilter, setSearchFilter] = useState()
   const [numberPlayersFilter, setNumberPlayersFilter] = useState()
   const { playlist, toggleGameInPlaylist } = useContext(Context)
   
   const fullGamesList = data.allGoogleSheet.nodes[0].Main
+  
+  //get full categories list
+  const categorySet = new Set()
+  fullGamesList.map(game=>game.category.split(",").forEach(cat=>categorySet.add(cat.trim())))
+  const categoryList = [...categorySet].filter(item=>item!=="").sort()
+
+  
 
   function RandomPlaylist(number) {
     var randomList = []
@@ -24,27 +31,10 @@ function IndexPage({ data }) {
     randomList.forEach(game=>toggleGameInPlaylist(game))
   }
 
-
-  function ToggleTagFilter(category) {
-    if (tagFilter && tagFilter.includes(category)) {
-      setTagFilter(prevFilter => {
-        if (prevFilter.length >= 2) {
-          return prevFilter.filter(item => item !== category)
-        } else {
-          return null
-        }
-      })
-    } else if (tagFilter) {
-      setTagFilter(prevFilter => [...prevFilter, category])
-    } else {
-      setTagFilter([category])
-    }
-  }
-
   function ClearFilters() {
     setNumberPlayersFilter("")
     setSearchFilter("")
-    setTagFilter()
+    setCatFilter()
   }
 
   function ScrollToTop() {
@@ -53,12 +43,12 @@ function IndexPage({ data }) {
 
   const filteredList = fullGamesList.filter(node => {
     //filter by category
-    if (tagFilter) {
+    if (catFilter) {
       let allTags = node.category.split(",")
       //return true if all tags of item include tags of filter
       return (
-        allTags.filter(item => tagFilter.includes(item.trim())).length ===
-        tagFilter.length
+        allTags.filter(item => catFilter.includes(item.trim())).length ===
+        catFilter.length
       )
     }
     return true
@@ -108,16 +98,25 @@ function IndexPage({ data }) {
                 onChange={e => setSearchFilter(e.target.value)}
               />
             </div>
+            <div className="flex-row">
+              Category:  
+              <select 
+                onChange={e => e.target.value==="" ? setCatFilter() : setCatFilter([e.target.value])}
+                value={catFilter || "None"}
+              >
+                <option value="">None</option>
+                {categoryList.map(cat=><option value={cat} key={"cat:" + cat}>{cat}</option>)}
+
+              </select>
+            </div>
           </div>
           <button onClick={()=> RandomPlaylist(1)}> Add Random Game</button>
         </div>
 
-        {tagFilter ? (
-          <p>Tags Filtered by: {JSON.stringify(tagFilter)}</p>
-        ) : null}
+
 
         {filteredList.length > 0 
-          ? filteredList.map(node => <GameCard key={node.id} node={node} ToggleTagFilter={ToggleTagFilter}/> )
+          ? filteredList.map(node => <GameCard key={node.id} node={node} clearFilters={()=>ClearFilters()} /> )
           : <h3>No games meet the search criteria</h3>
         }
       </div>
