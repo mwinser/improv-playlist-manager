@@ -10,7 +10,6 @@ module.exports = {
     siteUrl: `http://mwinser.com`,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,

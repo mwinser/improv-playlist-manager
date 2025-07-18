@@ -2,7 +2,7 @@ import * as React from "react"
 import { graphql } from "gatsby"
 import { useState, useContext } from "react"
 import Layout from "../components/layout"
-import Seo from "../components/seo"
+import { Head } from "../components/seo"
 import Playlist from "../components/playlist"
 import GameCard from "../components/gameCard"
 import { Context } from "../context"
@@ -12,6 +12,18 @@ function IndexPage({ data }) {
   const [searchFilter, setSearchFilter] = useState()
   const [numberPlayersFilter, setNumberPlayersFilter] = useState()
   const { playlist, toggleGameInPlaylist } = useContext(Context)
+  
+  // Handle case where Google Sheets data might not be available
+  if (!data?.allGoogleSheet?.nodes?.[0]?.Main) {
+    return (
+      <Layout>
+        <div className="games-list">
+          <h1>Improv Games List</h1>
+          <p>Loading games data... Please make sure your Google Sheets API is properly configured.</p>
+        </div>
+      </Layout>
+    )
+  }
   
   const fullGamesList = data.allGoogleSheet.nodes[0].Main
   
@@ -71,7 +83,6 @@ function IndexPage({ data }) {
 
   return (
     <Layout>
-      <Seo title="Home" />
       <div className="games-list">
         <h1>Improv Games List</h1>
         <div className="flex-row">
@@ -133,6 +144,8 @@ function IndexPage({ data }) {
 }
 
 export default IndexPage
+
+export { Head }
 
 export const query = graphql`
   query AllGames {
