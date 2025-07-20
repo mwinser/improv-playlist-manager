@@ -47,5 +47,10 @@
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
+  },
+  "overrides": {
+    "react-server-dom-webpack": {
+      "react": "$react"
+    }
   }
 }
